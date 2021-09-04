@@ -90,7 +90,7 @@ class Generator {
         image = image 
           ? image.composite([{ input: imagePath }])
           : sharp(imagePath)
-        console.log(`${layer.layer}:${layer.name}`);
+        console.log(`${layer.layer}:${layer.id}`);
       }
 
       const filename = `${this.config.instance.filename.replace(new RegExp('{id}', 'g'), counter)}`;
