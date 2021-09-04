@@ -10,7 +10,6 @@ class LayerConfig {
   static get(relativeFolderPath) { 
     const reply = new LayerConfig();
     reply.folder = path.join(process.cwd(), relativeFolderPath);
-    console.log('folder', reply.folder);
     return reply;
   }
 
@@ -38,7 +37,6 @@ class LayerConfig {
   }
 
   save() { 
-    console.log('save', this.configFilePath)
     fs.writeFileSync(this.configFilePath, JSON.stringify(this.data, null, 2), { encoding: 'utf-8' });
   }
 
@@ -71,7 +69,6 @@ class LayerConfig {
     const dir = fs.readdirSync(this.folder)
       .filter(item => ![LayerConfig.configFilename].includes(item));
 
-      console.log('dir', dir)
     // update files
     const existing = this.data.files || [];
     this.data.files = [];
