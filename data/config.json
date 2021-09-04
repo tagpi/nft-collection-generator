@@ -1,0 +1,10 @@
+{ 
+  "count": 10,
+  "instance": { 
+    "filename": "mix-{id}.png"
+  },
+  "layers": [
+    "background",
+    "head"
+  ]
+}

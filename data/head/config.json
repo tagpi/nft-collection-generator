@@ -1,0 +1,13 @@
+{
+  "name": "head",
+  "files": [
+    {
+      "id": "head-blue",
+      "filename": "head-blue.png"
+    },
+    {
+      "id": "head-green",
+      "filename": "head-green.png"
+    }
+  ]
+}
