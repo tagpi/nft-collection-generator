@@ -82,31 +82,23 @@ class Generator {
       counter++;
       console.log();
       console.log(counter, '/', this.config.count, `(${Math.floor(counter / this.config.count * 100)}%)`)
-
-      let image;
-
-      for (let layer of instance.layers) {
-        const imagePath = path.join(process.cwd(), this.relativePath, layer.layer, layer.filename);
-        image = image 
-          ? image.composite([{ input: imagePath }])
-          : sharp(imagePath)
-        console.log(`${layer.layer}:${layer.id}`);
-      }
+      instance.layers.forEach(layer => console.log(layer.layer, layer.filename))
 
       const filename = `${this.config.instance.filename.replace(new RegExp('{id}', 'g'), counter)}`;
-      await new Promise((y, n) => {
-        image.toFile(path.join(this.distPath, filename), function(err) {
-          if (err) { 
-            console.log('error: ', err)
-            n(err);
-          } else { 
-            y()
-          }
-        });
+      const input = instance.layers.map(layer => ({ input: this.getImagePath(layer.layer, layer.filename) }));
+      input.shift();
+      await new Promise(y => {
+        sharp(this.getImagePath(instance.layers[0].layer, instance.layers[0].filename))
+          .composite(input)
+          .toFile(path.join(this.distPath, filename), () => y())
       })
 
     }
 
+  }
+
+  getImagePath(layer, filename) { 
+    return path.join(process.cwd(), this.relativePath, layer, filename);
   }
 
 }
