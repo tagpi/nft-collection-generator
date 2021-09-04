@@ -9,7 +9,7 @@ class Generator {
   static get(relativePath) { 
     const reply = new Generator();
     reply.relativePath = relativePath;
-    reply.folder = path.join(process.execPath, relativePath);
+    reply.folder = path.join(process.cwd(), relativePath);
     reply.configPath = path.join(reply.folder, 'config.json');
     return reply;
   }
@@ -22,7 +22,7 @@ class Generator {
   }
 
   get distPath() { 
-    return path.join(process.execPath, 'dist');
+    return path.join(process.cwd(), 'dist');
   }
 
   createInstance() { 
@@ -86,7 +86,7 @@ class Generator {
       let image;
 
       for (let layer of instance.layers) {
-        const imagePath = path.join(process.execPath, this.relativePath, layer.layer, layer.filename);
+        const imagePath = path.join(process.cwd(), this.relativePath, layer.layer, layer.filename);
         image = image 
           ? image.composite([{ input: imagePath }])
           : sharp(imagePath)
