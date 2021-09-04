@@ -17,15 +17,26 @@ if (options && options.length) {
 
 (async () => {
   switch(cmd) {
+
     case 'layer': 
-      LayerConfig.get(options[0]).update();
+      const cfg = Generator.get(options[0] || '').config;
+      cfg.layers.forEach(layer => LayerConfig.get(layer).update());
       break;
+
     case 'calc':
       Generator.get(options[0] || '').calculate();
       break;
+
     case 'render':
       await Generator.get(options[0] || '').render();
       break;
+    
+    case 'generate':
+    default:
+      Generator.get(options[0] || '').calculate();
+      await Generator.get(options[0] || '').render();
+      break;
+
   } 
 })().then(() => { 
   console.log('------------------------------')
