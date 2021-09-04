@@ -31,6 +31,7 @@ if (options && options.length) {
   console.log('------------------------------')
   console.log('ok');
   console.log()
-}, () => { 
+}, err => { 
+  console.log('error:', err)
   process.exit(1);
 })
