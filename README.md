@@ -7,6 +7,7 @@
   "instance": { 
     "filename": "mix-{id}.png"
   },
+  "distPath": "dist",
   "layers": [
     "background",
     "head"

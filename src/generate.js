@@ -22,7 +22,7 @@ class Generator {
   }
 
   get distPath() { 
-    return path.join(process.cwd(), 'dist');
+    return path.join(process.cwd(), this.config.distPath);
   }
 
   createInstance() { 
