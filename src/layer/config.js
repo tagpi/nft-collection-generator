@@ -9,7 +9,7 @@ class LayerConfig {
 
   static get(relativeFolderPath) { 
     const reply = new LayerConfig();
-    reply.folder = path.join(__dirname, '../..', relativeFolderPath);
+    reply.folder = path.join(process.execPath, relativeFolderPath);
     console.log('folder', reply.folder);
     return reply;
   }
