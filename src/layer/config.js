@@ -18,7 +18,7 @@ class LayerConfig {
   }
 
   get folderName() { 
-    return this.folder.split('/').pop();
+    return path.basename(this.folder);
   }
 
   get name() { 
@@ -29,9 +29,7 @@ class LayerConfig {
     if (!this._data) {
       this._data = fs.existsSync(this.configFilePath)
         ? JSON.parse(fs.readFileSync(this.configFilePath, { encoding: 'utf-8' }))
-        : this._data = { 
-          name: this.name
-        };
+        : this._data = { name: this.name };
     }
     return this._data;
   }
