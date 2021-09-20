@@ -1,46 +1,44 @@
+process.stdout.write('\u001b[3J\u001b[1J');
 console.clear();
-const { Generator } = require('./src/generate.js');
-const { LayerConfig } = require('./src/layer/config.js');
 
-const args = [...process.argv];
-args.shift();
-args.shift();
+const ConfigService = require('./src/config.service.js');
+const InstanceService = require('./src/instance.service.js');
+const LayerService = require('./src/layer.service.js');
 
-const cmd = args.shift();
-const options = args;
+
+const cmd = (process.argv[2] || '').trim() || 'execute-all';
 console.log();
-console.log('------------------------------')
+console.log('------------------------------');
 console.log(`task: ${cmd}`);
-if (options && options.length) { 
-  console.log('options:', ...options)
-}
+console.log('------------------------------');
+console.log();
+
 
 (async () => {
-  switch(cmd) {
 
-    case 'layer': {
-      const cfg = Generator.get(options[0] || '').config;
-      cfg.layers.forEach(layer => LayerConfig.get(layer).update());
-    } break;
+  await ConfigService.init('.');
 
-    case 'calc': {
-      Generator.get(options[0] || '').calculate();
-    } break;
+  switch(cmd) { 
+    case 'layer': 
+      await LayerService.createConfigFiles(process.argv[3]);
+      break;
+    case 'color':
+      await LayerService.createColorFiles(process.argv[3]);
+      break;
+    case 'calc':
+      await InstanceService.generate();
+      break;
+    case 'render':
+      await InstanceService.render(process.argv[3]);
+      break;
+    default: 
+      await InstanceService.generate();
+      await InstanceService.render(process.argv[3]);
+      break;
+  }
 
-    case 'render': {
-      await Generator.get(options[0] || '').render();
-    } break;
-    
-    case 'generate':
-    default: {
-      const cfg = Generator.get(options[0] || '').config;
-      cfg.layers.forEach(layer => LayerConfig.get(layer).update());
-      cfg.calculate();
-      await cfg.render();
-    } break;
-
-  } 
 })().then(() => { 
+  console.log();
   console.log('------------------------------')
   console.log('ok');
   console.log()
